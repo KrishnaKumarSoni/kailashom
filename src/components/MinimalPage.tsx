@@ -215,14 +215,6 @@ const MinimalPage = () => {
               <div key={index} className="bg-white p-6 rounded-2xl shadow-lg">
                 <div className="mb-6">
                   <div 
-                    className="w-12 h-12 mx-auto mb-4 bg-burnt-orange-600 text-white rounded-lg flex items-center justify-center text-xl font-bold font-jakarta"
-                    style={{
-                      boxShadow: '0 8px 16px rgba(234, 88, 12, 0.3)'
-                    }}
-                  >
-                    {index + 1}
-                  </div>
-                  <div 
                     className="w-16 h-16 mx-auto bg-gradient-to-br from-burnt-orange-400 to-burnt-orange-600 rounded-xl flex items-center justify-center"
                     style={{
                       boxShadow: '0 12px 24px rgba(234, 88, 12, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
