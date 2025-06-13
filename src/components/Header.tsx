@@ -15,7 +15,7 @@ const Header = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/95690030342', '_blank');
+    window.open('https://wa.me/919560030342', '_blank');
   };
 
   const handleMouseDown = () => setIsPressed(true);

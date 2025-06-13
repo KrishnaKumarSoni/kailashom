@@ -19,7 +19,7 @@ const MinimalPage = () => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/95690030342', '_blank');
+    window.open('https://wa.me/919560030342', '_blank');
   };
 
   const handleMouseDown = () => setIsPressed(true);
@@ -118,16 +118,16 @@ const MinimalPage = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mb-20">
             <div className="text-center">
-              <div className="text-5xl font-bold text-gray-900 mb-2 font-jakarta">2000+</div>
-              <div className="text-lg text-gray-600 font-medium font-inter">Lives Transformed</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">2000+</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Lives Transformed</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold text-gray-900 mb-2 font-jakarta">12+</div>
-              <div className="text-lg text-gray-600 font-medium font-inter">Countries Served</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">12+</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Countries Served</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold text-gray-900 mb-2 font-jakarta">18</div>
-              <div className="text-lg text-gray-600 font-medium font-inter">Years Experience</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">18</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Years Experience</div>
             </div>
           </div>
         </div>
