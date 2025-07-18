@@ -1,0 +1,123 @@
+{
+  "name": "Rupa Soni - Best Numerologist in India 2025",
+  "short_name": "Rupa Soni Numerology",
+  "description": "Expert numerologist Rupa Soni offers the best numerology services in India 2025. Specializing in business name numerology, baby naming, and personal consultations. 2000+ successful clients.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EA580C",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["lifestyle", "business", "consulting", "spirituality"],
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16", 
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Rupa Soni Numerology Services - Desktop View"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png", 
+      "form_factor": "narrow",
+      "label": "Rupa Soni Numerology Services - Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Consultation",
+      "short_name": "Book Now",
+      "description": "Book a free numerology consultation with Rupa Soni",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/shortcut-book.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Business Naming",
+      "short_name": "Business",
+      "description": "Business name numerology services",
+      "url": "/#services",
+      "icons": [
+        {
+          "src": "/shortcut-business.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Baby Naming",
+      "short_name": "Baby Names",
+      "description": "Numerology-based baby naming services",
+      "url": "/#services",
+      "icons": [
+        {
+          "src": "/shortcut-baby.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://kailashom-m454bksbl-krishnas-projects-cc548bc4.vercel.app/"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "protocol_handlers": [
+    {
+      "protocol": "web+numerology",
+      "url": "/?consultation=%s"
+    }
+  ]
+} 

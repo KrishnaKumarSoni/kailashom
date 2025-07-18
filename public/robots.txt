@@ -1,0 +1,54 @@
+# Robots.txt for Rupa Soni Numerology Services
+# Best Numerologist in India 2025
+
+User-agent: *
+Allow: /
+
+# Priority pages for crawling
+Allow: /#services
+Allow: /#about
+Allow: /#testimonials
+Allow: /#faq
+Allow: /#contact
+
+# Sitemap location
+Sitemap: https://kailashom-m454bksbl-krishnas-projects-cc548bc4.vercel.app/sitemap.xml
+
+# Crawl delay (optional - helps with server load)
+Crawl-delay: 1
+
+# Specific instructions for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block common bot traffic that doesn't add SEO value
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Allow social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: / 
