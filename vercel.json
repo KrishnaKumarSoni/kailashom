@@ -4,11 +4,7 @@
   "github": {
     "silent": true
   },
-  "functions": {
-    "app/api/*.js": {
-      "maxDuration": 30
-    }
-  },
+
   "headers": [
     {
       "source": "/(.*)",
@@ -66,7 +62,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
