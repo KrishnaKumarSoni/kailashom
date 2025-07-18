@@ -160,7 +160,15 @@ const MinimalPage = () => {
        rating: 5,
        text: "Was earning ₹30-40k monthly with lots of struggle. After personal name correction and business card changes, my deals increased dramatically. Now earning ₹1.5-2 lakhs monthly consistently!",
        result: "Income increased from ₹40k to ₹2L monthly"
-     }
+     },
+    {
+      name: "Anjali Gupta",
+      location: "Pune, Maharashtra",
+      profession: "CA & Tax Consultant",
+      rating: 5,
+      text: "My practice was struggling with only 15-20 clients. After consulting with Rupa Soni and changing my firm's name, I now have 80+ regular clients. My monthly income tripled from ₹60k to ₹1.8 lakhs. Her numerology guidance changed everything!",
+      result: "Income tripled from ₹60k to ₹1.8L monthly"
+    }
   ];
 
   const faqs = [
@@ -221,7 +229,7 @@ const MinimalPage = () => {
           </h1>
 
           <p className="text-xl sm:text-2xl text-gray-600 mb-12 leading-relaxed font-inter font-light max-w-3xl mx-auto">
-            Leading numerology expert specializing in business name numerology, baby naming, and personal consultations. Over{' '}
+            Leading numerology expert <strong>Rupa Soni</strong> specializing in business name numerology, baby naming, and personal consultations. Over{' '}
             <span className="font-semibold text-burnt-orange-600">2,000 successful clients</span>{' '}
             across 12 countries have unlocked prosperity and success through our unique Cheiro numerology methodology for 2025.
           </p>
@@ -280,7 +288,7 @@ const MinimalPage = () => {
 
           <div className="mb-12 text-lg text-gray-700 leading-relaxed font-inter">
             <p className="mb-6">
-              With 18 years of dedicated practice in <strong>Cheiro numerology</strong>, our expert has mastered the rare and powerful techniques that have transformed over 2,000 lives across India and 12 countries worldwide. Specializing in <strong>business name numerology</strong>, <strong>baby naming</strong>, and <strong>personal name correction</strong>, we bring ancient wisdom to modern success.
+              With 18 years of dedicated practice in <strong>Cheiro numerology</strong>, expert <strong>Rupa Soni</strong> has mastered the rare and powerful techniques that have transformed over 2,000 lives across India and 12 countries worldwide. Specializing in <strong>business name numerology</strong>, <strong>baby naming</strong>, and <strong>personal name correction</strong>, we bring ancient wisdom to modern success.
             </p>
             <p className="mb-6">
               Our <strong>numerology services for 2025</strong> are specially designed to harness the universal year number 9 (Mars energy) for maximum prosperity and growth. Whether you're looking for <strong>business naming consultation</strong>, <strong>newborn baby names</strong>, or <strong>personal year predictions</strong>, our methodology delivers proven results.
