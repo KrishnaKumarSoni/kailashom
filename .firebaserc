@@ -1,0 +1,13 @@
+{
+  "projects": {},
+  "targets": {
+    "kailashom-e0493": {
+      "storage": {
+        "default": [
+          "kailashom-e0493.appspot.com"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

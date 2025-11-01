@@ -8,14 +8,8 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   build: {
-    // SEO Performance Optimizations
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    // Use default esbuild minifier to avoid external terser dependency
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: {

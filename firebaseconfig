@@ -1,0 +1,8 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyBHiiLY7dTSaT3crd2fJE9WoLomhsHMfcs",
+  authDomain: "kailashom-e0493.firebaseapp.com",
+  projectId: "kailashom-e0493",
+  storageBucket: "kailashom-e0493.firebasestorage.app",
+  messagingSenderId: "941575571443",
+  appId: "1:941575571443:web:47de7c961d3ea157a4b486"
+};

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,7 +33,13 @@ const Header = () => {
             <h1 className="text-2xl font-bold text-burnt-orange-600 font-jakarta tracking-wider">KAILASHOM</h1>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <Link
+              to="/write-a-review"
+              className="px-5 py-2 text-sm font-semibold text-burnt-orange-600 bg-burnt-orange-50 rounded-lg border border-burnt-orange-200 transition hover:bg-burnt-orange-100"
+            >
+              Write a Review
+            </Link>
             <button 
               onClick={handleWhatsAppClick}
               onMouseDown={handleMouseDown}

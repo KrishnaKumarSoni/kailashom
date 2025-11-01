@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { 
   Phone, 
   Star, 
@@ -13,14 +13,13 @@ import {
   BookOpen,
   Target,
   CheckCircle,
-  Users,
-  TrendingUp,
-  Heart,
-  MapPin,
   Calendar,
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { listenToReviews } from '../services/reviewService';
+import { ReviewRecord } from '../types/review';
 
 const MinimalPage = () => {
   const [isPressed, setIsPressed] = useState(false);
@@ -42,17 +41,17 @@ const MinimalPage = () => {
     {
       icon: Building2,
       title: 'Business Name Numerology',
-      description: 'Transform your enterprise with numerologically optimized names that attract success, prosperity, and positive energy for 2025 growth'
+      description: 'Workshop name ideas that balance your brand story with supportive number patterns and launch windows.'
     },
     {
       icon: Baby,
       title: 'Newborn Baby Naming',
-      description: 'Give your child a numerologically perfect name that supports their highest potential, destiny, and life path success using ancient Cheiro methods'
+      description: 'Co-create baby names and spellings that sit well with family traditions while aligning with the child’s birth numbers.'
     },
     {
       icon: Sparkles,
       title: 'Personal Name Correction',
-      description: 'Unlock blocked energies and redirect your path toward prosperity with personalized name analysis and correction for 2025'
+      description: 'Review signatures, spellings, and personal years to see whether gentle adjustments could bring more ease.'
     }
   ];
 
@@ -60,149 +59,83 @@ const MinimalPage = () => {
     {
       icon: MessageCircle,
       title: 'Initial Consultation',
-      description: 'Share your requirements, birth details, and aspirations for personalized numerology analysis'
+      description: 'Begin with a short chat about your questions, background, and the decisions you’re weighing.'
     },
     {
       icon: Calculator,
       title: 'Numerological Analysis',
-      description: 'Deep analysis using rare Cheiro numerology methods and 2025 universal year calculations'
+      description: 'We map key numbers, personal years, and names to highlight supportive directions without jargon.'
     },
     {
       icon: Sparkles,
       title: 'Custom Name Creation',
-      description: 'Crafting names aligned with cosmic vibrations and your personal year number for maximum impact'
+      description: 'Receive curated combinations, pronunciation notes, and reasons behind each suggestion.'
     },
     {
       icon: BookOpen,
       title: 'Implementation Guidance',
-      description: 'Complete guidance for name implementation and timing for maximum numerological benefits'
+      description: 'Discuss practical next steps, from paperwork and announcements to colour cues and launch timing.'
     }
   ];
 
-  // Authentic Indian middle-class testimonials
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      location: "Mumbai, Maharashtra",
-      profession: "Textile Business Owner",
-      rating: 5,
-      text: "After changing my business name as per her numerology guidance, my textile business in Mumbai saw 40% growth in just 6 months. The new name brought so many new customers and opportunities. Truly amazing results!",
-      result: "40% business growth in 6 months"
-    },
-    {
-      name: "Rajesh Kumar",
-      location: "Delhi, NCR",
-      profession: "Software Engineer",
-      rating: 5,
-      text: "I was struggling with career growth for 3 years. After name correction consultation, I got promoted to Senior Manager within 8 months. My salary increased by ₹8 lakhs annually. Best investment ever!",
-      result: "Promotion + ₹8L salary increase"
-    },
-    {
-      name: "Meera Patel",
-      location: "Ahmedabad, Gujarat",
-      profession: "Mother of 2",
-      rating: 5,
-      text: "Named both my children using her numerology guidance. My elder son is now class topper and younger daughter is very confident and happy. Their teachers always praise their positive energy and leadership qualities.",
-      result: "Children excelling academically & socially"
-    },
-    {
-      name: "Suresh Reddy",
-      location: "Hyderabad, Telangana", 
-      profession: "Restaurant Owner",
-      rating: 5,
-      text: "My restaurant was running in losses for 2 years. Changed the name as per numerology in January 2024. Now we have waiting lists every weekend! Monthly revenue increased from ₹2L to ₹5.5L.",
-      result: "Revenue increased from ₹2L to ₹5.5L monthly"
-    },
-    {
-      name: "Anita Singh",
-      location: "Lucknow, Uttar Pradesh",
-      profession: "Government Employee",
-      rating: 5,
-      text: "Was stuck in same position for 7 years despite good performance. After personal name correction, got transfer to preferred location and promotion within 1 year. My family life also improved significantly.",
-      result: "Promotion + preferred transfer in 1 year"
-    },
-    {
-      name: "Vikram Joshi",
-      location: "Pune, Maharashtra",
-      profession: "IT Consultant",
-      rating: 5,
-      text: "Started my consulting business with numerologically chosen name in 2023. Within 18 months, I have 15+ regular clients and earning 3x more than my corporate job. The name really works!",
-      result: "3x income increase in 18 months"
-    },
-    {
-      name: "Kavita Agarwal",
-      location: "Jaipur, Rajasthan",
-      profession: "Homemaker & Part-time Tutor",
-      rating: 5,
-      text: "My daughter was very shy and struggling in studies. After name spelling correction, she became confident, started participating in competitions and improved her grades from C to A+. Remarkable transformation!",
-      result: "Daughter's grades improved from C to A+"
-    },
-    {
-      name: "Amit Gupta",
-      location: "Kolkata, West Bengal",
-      profession: "Medical Store Owner",
-      rating: 5,
-      text: "Business was barely surviving after COVID. Changed store name using her numerology advice. Customer footfall doubled in 4 months and monthly profit increased by ₹1.2 lakhs. Highly recommended!",
-      result: "Profit increased by ₹1.2L monthly"
-    },
-    {
-      name: "Deepika Nair",
-      location: "Kochi, Kerala",
-      profession: "Beauty Salon Owner",
-      rating: 5,
-      text: "My salon was struggling with competition. After numerology consultation and name change, we became the most popular salon in our area. Booking slots fill up 2 weeks in advance now!",
-      result: "Became most popular salon in area"
-    },
-         {
-       name: "Ravi Chandra",
-       location: "Bangalore, Karnataka",
-       profession: "Real Estate Agent",
-       rating: 5,
-       text: "Was earning ₹30-40k monthly with lots of struggle. After personal name correction and business card changes, my deals increased dramatically. Now earning ₹1.5-2 lakhs monthly consistently!",
-       result: "Income increased from ₹40k to ₹2L monthly"
-     },
-    {
-      name: "Anjali Gupta",
-      location: "Pune, Maharashtra",
-      profession: "CA & Tax Consultant",
-      rating: 5,
-      text: "My practice was struggling with only 15-20 clients. After consulting with Rupa Soni and changing my firm's name, I now have 80+ regular clients. My monthly income tripled from ₹60k to ₹1.8 lakhs. Her numerology guidance changed everything!",
-      result: "Income tripled from ₹60k to ₹1.8L monthly"
-    }
-  ];
+  const [reviews, setReviews] = useState<ReviewRecord[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsError, setReviewsError] = useState<string | null>(null);
+
+  const reviewDateFormatter = useMemo(
+    () => new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }),
+    []
+  );
+
+  useEffect(() => {
+    const unsubscribe = listenToReviews(
+      (records) => {
+        setReviews(records);
+        setReviewsLoading(false);
+        setReviewsError(null);
+      },
+      (error) => {
+        console.error('Failed to load reviews', error);
+        setReviewsError('Unable to load recent experiences right now. Please check back soon.');
+        setReviewsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   const faqs = [
     {
       question: "What is business name numerology and how does it help in 2025?",
-      answer: "Business name numerology analyzes the numerical vibrations of your business name to ensure it aligns with success energies. In 2025, with universal year number 9 (Mars energy), a properly chosen business name can attract prosperity, customers, and positive opportunities. Our Cheiro numerology method has helped over 2000+ businesses achieve remarkable growth."
+      answer: "We review how the numbers behind a business name interact with the people running it and the current personal year. The outcome is usually a shortlist of names plus simple suggestions for launch windows so the team can choose what feels practical."
     },
     {
       question: "How do you choose the best name for a newborn baby using numerology?",
-      answer: "We analyze the baby's birth date, time, parents' numerological profiles, and 2025 cosmic influences to create names that support the child's highest potential. Our method considers destiny numbers, life path calculations, and planetary influences to ensure the name enhances personality development and future success."
+      answer: "Parents share preferred sounds or family combinations, and we weigh them against the child's birth date and core numbers. The process is collaborative, with guidance on why certain spellings may feel calmer or more energetic."
     },
     {
       question: "What makes your numerology methodology unique compared to other numerologists in India?",
-      answer: "Our methodology is based on rare Cheiro numerology techniques learned from ancient masters, combined with 18 years of practical experience serving over 2000 clients across 12 countries. We use exclusive calculations not available elsewhere and provide personalized guidance for 2025 universal year influences."
+      answer: "We stick to Cheiro numerology fundamentals and spend most of the session listening. Rather than dramatic forecasts, you receive grounded explanations and next steps you can integrate at your own pace."
     },
     {
       question: "How accurate are numerology predictions for 2025 and personal year calculations?",
-      answer: "Numerology 2025 predictions are based on the universal year number 9 (Mars energy). Our clients report 85-90% accuracy in personal year forecasts, career guidance, and life transition timing. We provide specific monthly guidance and auspicious timing for important decisions throughout 2025."
+      answer: "Numerology outlines themes and timing, not guarantees. Clients often use personal year readings as reflection tools alongside their own planning, which keeps expectations realistic."
     },
     {
       question: "Can numerology really help with business growth and career advancement?",
-      answer: "Yes, absolutely! Our clients have experienced 30-200% business growth, career promotions, salary increases, and new opportunities after implementing numerological name changes. The testimonials on our website showcase real results from Indian middle-class families and business owners."
+      answer: "It offers a fresh lens when decisions feel stuck. Many clients use the insights to confirm intuition or spark ideas, while continuing to rely on market research and professional advice for the heavy lifting."
     },
     {
       question: "What is the consultation process and how long does it take?",
-      answer: "Our consultation process involves: 1) Initial WhatsApp discussion (30 mins), 2) Detailed numerological analysis (24-48 hours), 3) Custom name creation with multiple options, 4) Implementation guidance and timing. The entire process typically takes 3-5 days for complete delivery."
+      answer: "Typically we begin with a short WhatsApp or phone chat, follow it up with a detailed session, and send written notes within two to three days. Follow-up questions are welcome as you implement the guidance."
     },
     {
       question: "Do you provide services for clients outside India?",
-      answer: "Yes, we serve clients across 12+ countries including USA, Canada, UK, Australia, UAE, and Singapore. Our WhatsApp consultations make it easy for international clients to access our services. We understand cultural preferences for different regions while maintaining numerological accuracy."
+      answer: "Yes. Most meetings happen online, so overseas families and professionals can book sessions that suit their time zone."
     },
     {
       question: "What is the difference between Cheiro numerology and other numerology systems?",
-      answer: "Cheiro numerology, developed by the famous Count Louis Hamon, is considered the most accurate system for name analysis and predictions. Unlike Pythagorean or Vedic systems, Cheiro method provides more precise calculations for business success, relationship compatibility, and timing of events."
+      answer: "Cheiro numerology places strong emphasis on name numbers and personal year cycles. We occasionally reference other systems when it helps clients connect the dots, but Cheiro remains our base."
     }
   ];
 
@@ -223,57 +156,55 @@ const MinimalPage = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-8 leading-tight font-jakarta">
-            Best Numerologist in India 2025 - Transform Your Destiny Through{' '}
-            <span className="text-burnt-orange-600">Ancient Cheiro Numerology</span>{' '}
-            Wisdom
+            Thoughtful Numerology Guidance for Names, Families, and New Beginnings
           </h1>
 
           <p className="text-xl sm:text-2xl text-gray-600 mb-12 leading-relaxed font-inter font-light max-w-3xl mx-auto">
-            Leading numerology expert <strong>Rupa Soni</strong> specializing in business name numerology, baby naming, and personal consultations. Over{' '}
-            <span className="font-semibold text-burnt-orange-600">2,000 successful clients</span>{' '}
-            across 12 countries have unlocked prosperity and success through our unique Cheiro numerology methodology for 2025.
+            <strong>Rupa Soni</strong> blends traditional Cheiro numerology with a grounded, conversation-led approach. We help families, founders, and individuals explore name choices, timing, and personal cycles with balanced insights you can actually use.
           </p>
 
           <div className="mb-8 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Business Name Numerology Expert</span>
-            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Baby Naming Specialist</span>
-            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Personal Year 2025 Predictions</span>
-            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Name Correction Services</span>
+            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Business & brand naming support</span>
+            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Baby naming conversations</span>
+            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Personal year check-ins</span>
+            <span className="bg-burnt-orange-100 px-3 py-1 rounded-full">✓ Implementation guidance</span>
           </div>
 
-          <button 
-            onClick={handleWhatsAppClick}
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            className="relative px-12 py-4 text-xl font-semibold text-white rounded-xl transition-all duration-150 mb-16"
-            style={{
-              background: 'linear-gradient(135deg, #EA580C 0%, #C2410C 100%)',
-              boxShadow: isPressed 
-                ? `inset 0 4px 8px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(234, 88, 12, 0.2)`
-                : `0 8px 24px rgba(234, 88, 12, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
-              transform: isPressed ? 'translateY(2px)' : 'translateY(0)',
-            }}
-          >
-            <span className="flex items-center gap-3">
-              <Phone className="w-6 h-6" />
-              Book Free Numerology Consultation
-            </span>
-          </button>
+          <div className="flex items-center justify-center mb-16">
+            <button 
+              onClick={handleWhatsAppClick}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              className="relative px-12 py-4 text-xl font-semibold text-white rounded-xl transition-all duration-150"
+              style={{
+                background: 'linear-gradient(135deg, #EA580C 0%, #C2410C 100%)',
+                boxShadow: isPressed 
+                  ? `inset 0 4px 8px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(234, 88, 12, 0.2)`
+                  : `0 8px 24px rgba(234, 88, 12, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                transform: isPressed ? 'translateY(2px)' : 'translateY(0)',
+              }}
+            >
+              <span className="flex items-center gap-3">
+                <Phone className="w-6 h-6" />
+                Plan a Numerology Conversation
+              </span>
+            </button>
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mb-20">
             <div className="text-center">
-              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">2000+</div>
-              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Lives Transformed</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">650+</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Families & founders advised</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">12+</div>
-              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Countries Served</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">8+</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Cities consulted regularly</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">18</div>
-              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Years Experience</div>
+              <div className="text-3xl sm:text-5xl font-bold text-gray-900 mb-2 font-jakarta">15</div>
+              <div className="text-base sm:text-lg text-gray-600 font-medium font-inter">Years of steady practice</div>
             </div>
           </div>
         </div>
@@ -283,15 +214,15 @@ const MinimalPage = () => {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50" id="about">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-12 font-jakarta">
-            India's Leading Numerology Expert - A Journey from <span className="text-burnt-orange-600">Ancient Wisdom</span> to Global Recognition
+            A Practical Numerology Practice Rooted in Listening
           </h2>
 
           <div className="mb-12 text-lg text-gray-700 leading-relaxed font-inter">
             <p className="mb-6">
-              With 18 years of dedicated practice in <strong>Cheiro numerology</strong>, expert <strong>Rupa Soni</strong> has mastered the rare and powerful techniques that have transformed over 2,000 lives across India and 12 countries worldwide. Specializing in <strong>business name numerology</strong>, <strong>baby naming</strong>, and <strong>personal name correction</strong>, we bring ancient wisdom to modern success.
+              For more than 15 years, <strong>Rupa Soni</strong> has studied <strong>Cheiro numerology</strong> and met families across India to talk through names, milestones, and personal rhythms. Our role is to pair traditional calculation with thoughtful conversations so decisions feel informed rather than forced.
             </p>
             <p className="mb-6">
-              Our <strong>numerology services for 2025</strong> are specially designed to harness the universal year number 9 (Mars energy) for maximum prosperity and growth. Whether you're looking for <strong>business naming consultation</strong>, <strong>newborn baby names</strong>, or <strong>personal year predictions</strong>, our methodology delivers proven results.
+              Sessions focus on what the numbers suggest for the year ahead, practical timing, and how changes may resonate in daily life. Whether you are choosing a business identity, finalising a baby name, or checking in on a personal year, the guidance stays grounded and collaborative.
             </p>
           </div>
 
@@ -305,9 +236,9 @@ const MinimalPage = () => {
               >
                 <Award className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Rare Cheiro Numerology Knowledge</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Cheiro Numerology, Explained Clearly</h3>
               <p className="text-lg text-gray-600 leading-relaxed font-inter font-light">
-                Through dedicated study and practice, she mastered a unique extension of <strong>Cheiro numerology</strong> learned from ancient masters, developing a methodology that delivers exceptional results for business growth, career advancement, and personal transformation.
+                We walk through core Cheiro numerology principles in plain language, sharing how name numbers, birth numbers, and personal years interact. Every recommendation comes with context so you can decide what feels right for your situation.
               </p>
             </div>
 
@@ -320,9 +251,9 @@ const MinimalPage = () => {
               >
                 <Globe className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Global Impact & Recognition</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Conversations Across Communities</h3>
               <p className="text-lg text-gray-600 leading-relaxed font-inter font-light">
-                Today, she has consulted over 2,000 clients worldwide including successful business owners, professionals, and families across India, USA, Canada, UK, Australia, and UAE, building a thriving practice through pure word-of-mouth recommendations and proven results.
+                Most people find us through a friend or relative. We regularly work with parents, independent professionals, and small business teams in India and with a few overseas families who prefer WhatsApp sessions.
               </p>
             </div>
           </div>
@@ -333,12 +264,11 @@ const MinimalPage = () => {
       <section className="py-20 px-4 sm:px-6 lg:px-8" id="services">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8 font-jakarta">
-            Professional Numerology Services for 2025 - Unlock Your Potential Through{' '}
-            <span className="text-burnt-orange-600">Precise Numerological</span> Naming
+            Supportive Numerology Services for 2025 — Practical Guidance, Not Hype
           </h2>
           
           <p className="text-xl text-gray-600 mb-16 max-w-4xl mx-auto leading-relaxed font-inter">
-            Our comprehensive <strong>numerology consultation services</strong> include business name analysis, baby naming guidance, personal name correction, and 2025 predictions using authentic Cheiro numerology methods. Each service is personalized to your unique numerological profile and cosmic influences.
+            We keep our <strong>numerology consultations</strong> simple and conversational. Sessions cover business or brand naming, baby naming assistance, and personal-year reflections with notes you can revisit after the call.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -361,30 +291,30 @@ const MinimalPage = () => {
           </div>
 
           <div className="mt-16 bg-burnt-orange-50 p-8 rounded-2xl max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Why Choose Our Numerology Services?</h3>
-            <div className="grid md:grid-cols-2 gap-6 text-left">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Why Clients Appreciate the Sessions</h3>
+            <div className="grid md:grid-cols-2 gap-6 text-left text-gray-700 font-inter">
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-6 h-6 text-burnt-orange-600 mt-1 flex-shrink-0" />
                 <div>
-                  <strong>Proven Results:</strong> 2000+ successful consultations with documented business growth and life improvements
+                  <strong>Calm structure:</strong> We begin with listening, move into calculations, and close with written notes.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-6 h-6 text-burnt-orange-600 mt-1 flex-shrink-0" />
                 <div>
-                  <strong>Authentic Methods:</strong> Rare Cheiro numerology techniques not available elsewhere in India
+                  <strong>Plain language:</strong> Concepts are explained without jargon so families of all ages can follow along.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-6 h-6 text-burnt-orange-600 mt-1 flex-shrink-0" />
                 <div>
-                  <strong>2025 Specialization:</strong> Expert guidance for universal year 9 influences and personal year calculations
+                  <strong>Practical timing:</strong> Personal-year insights are paired with everyday considerations like exams or launch schedules.
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-6 h-6 text-burnt-orange-600 mt-1 flex-shrink-0" />
                 <div>
-                  <strong>Global Experience:</strong> Serving clients across 12 countries with cultural sensitivity and accuracy
+                  <strong>Support afterwards:</strong> Follow-up questions over WhatsApp are welcome for a few weeks as you implement changes.
                 </div>
               </div>
             </div>
@@ -396,7 +326,7 @@ const MinimalPage = () => {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50" id="process">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-16 font-jakarta">
-            Your Journey to <span className="text-burnt-orange-600">Numerological Transformation</span> in 2025
+            How a Typical Numerology Session Unfolds
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -428,7 +358,7 @@ const MinimalPage = () => {
               <Target className="w-8 h-8 text-white" />
             </div>
             <div className="text-2xl font-bold text-gray-900 font-jakarta">
-              Exclusive Cheiro numerology methodology learned from ancient masters, unavailable anywhere else in India
+              A measured blend of Cheiro numerology insights, lived experience, and practical guidance you can use immediately
             </div>
           </div>
         </div>
@@ -439,59 +369,113 @@ const MinimalPage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8 font-jakarta">
-              Real Success Stories from <span className="text-burnt-orange-600">Indian Families</span> & Businesses
+              Recent Conversations with Families and Small Businesses
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-inter">
-              Discover how our <strong>numerology consultations</strong> have transformed the lives of middle-class Indian families, business owners, and professionals across the country. These are real testimonials from real people who experienced remarkable changes after implementing our numerological guidance.
+              The notes below are from people who invited numerology into their decision-making. Names are shared with permission and, in some cases, lightly altered for privacy.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                    ))}
+            {reviewsLoading &&
+              Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={`placeholder-${index}`}
+                  className="bg-white p-6 rounded-2xl shadow-lg animate-pulse h-full flex flex-col gap-4"
+                >
+                  <div className="h-4 bg-gray-200 rounded w-24" />
+                  <div className="h-28 bg-gray-100 rounded-xl" />
+                  <div className="space-y-2">
+                    <div className="h-3 bg-gray-200 rounded" />
+                    <div className="h-3 bg-gray-200 rounded w-3/4" />
                   </div>
-                  <div className="text-xs text-gray-500 flex items-center gap-1">
-                    <MapPin className="w-3 h-3" />
-                    {testimonial.location}
-                  </div>
+                  <div className="mt-auto h-3 bg-gray-200 rounded w-1/3" />
                 </div>
-                
-                <blockquote className="text-sm text-gray-700 mb-4 leading-relaxed font-inter">
-                  "{testimonial.text}"
-                </blockquote>
-                
-                <div className="border-t pt-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-semibold text-gray-900 text-sm">{testimonial.name}</div>
-                      <div className="text-xs text-gray-600">{testimonial.profession}</div>
+              ))}
+
+            {!reviewsLoading && reviewsError && (
+              <div className="col-span-full bg-red-50 border border-red-200 text-red-600 rounded-2xl px-6 py-5 text-sm font-inter">
+                {reviewsError}
+              </div>
+            )}
+
+            {!reviewsLoading && !reviewsError && reviews.length === 0 && (
+              <div className="col-span-full bg-white border border-dashed border-burnt-orange-300 rounded-2xl px-8 py-10 text-center">
+                <p className="text-lg text-gray-700 font-inter mb-4">Be the first to share your story with us.</p>
+                <Link
+                  to="/write-a-review"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-white font-semibold"
+                  style={{
+                    background: 'linear-gradient(135deg, #EA580C 0%, #C2410C 100%)',
+                    boxShadow: '0 8px 20px rgba(234, 88, 12, 0.3)'
+                  }}
+                >
+                  Share your review
+                </Link>
+              </div>
+            )}
+
+            {!reviewsLoading && !reviewsError &&
+              reviews.slice(0, 6).map((review) => (
+                <div key={review.id} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <div className="text-xs text-gray-500 flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {reviewDateFormatter.format(review.createdAt)}
                     </div>
                   </div>
-                  <div className="mt-2 bg-burnt-orange-50 px-3 py-1 rounded-full text-xs font-medium text-burnt-orange-700">
-                    ✓ {testimonial.result}
+
+                  {review.mediaUrl && (
+                    <div className="mb-4 overflow-hidden rounded-xl">
+                      {review.mediaType === 'image' ? (
+                        <img
+                          src={review.mediaUrl}
+                          alt={`Review from ${review.name}`}
+                          className="w-full h-40 object-cover"
+                        />
+                      ) : (
+                        <video
+                          src={review.mediaUrl}
+                          controls
+                          className="w-full h-40 object-cover rounded-xl"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <blockquote className="text-sm text-gray-700 mb-4 leading-relaxed font-inter">
+                    “{review.feedback}”
+                  </blockquote>
+
+                  <div className="border-t pt-4">
+                    <div className="font-semibold text-gray-900 text-sm">{review.name}</div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
-
+          
           <div className="text-center mt-12">
             <div className="bg-burnt-orange-50 p-8 rounded-2xl max-w-3xl mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Join 2000+ Satisfied Clients</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 font-jakarta">Ready to add your experience?</h3>
               <p className="text-lg text-gray-700 mb-6 font-inter">
-                These testimonials represent just a fraction of our successful consultations. Every month, we help dozens of Indian families and businesses achieve their goals through the power of numerology.
+                Every note helps someone new decide whether a numerology session is right for them.
               </p>
-              <button 
-                onClick={handleWhatsAppClick}
-                className="px-8 py-3 bg-burnt-orange-600 text-white rounded-xl font-semibold hover:bg-burnt-orange-700 transition-colors"
+              <Link 
+                to="/write-a-review"
+                className="inline-flex items-center justify-center px-8 py-3 bg-burnt-orange-600 text-white rounded-xl font-semibold hover:bg-burnt-orange-700 transition-colors"
               >
-                Get Your Success Story
-              </button>
+                Share your review
+              </Link>
             </div>
           </div>
         </div>
@@ -505,7 +489,7 @@ const MinimalPage = () => {
               Frequently Asked Questions About <span className="text-burnt-orange-600">Numerology Services</span> in India
             </h2>
             <p className="text-xl text-gray-600 leading-relaxed font-inter">
-              Get answers to common questions about our <strong>numerology consultation services</strong>, <strong>business name numerology</strong>, <strong>baby naming</strong>, and <strong>2025 predictions</strong>. Our expert guidance helps you make informed decisions about your numerological journey.
+              Here are the questions we hear most often during discovery calls. If something you’re wondering about isn’t covered, message us and we’ll be happy to clarify.
             </p>
           </div>
 
@@ -555,8 +539,7 @@ const MinimalPage = () => {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-16 font-jakarta">
-            Proven Numerology Results That{' '}
-            <span className="text-burnt-orange-600">Speak for Themselves</span>
+            What People Usually Take Away from a Session
           </h2>
 
           <div className="bg-burnt-orange-50 p-12 rounded-2xl shadow-lg mb-16">
@@ -569,30 +552,25 @@ const MinimalPage = () => {
               <MessageCircle className="w-8 h-8 text-white" />
             </div>
             <blockquote className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-8 leading-relaxed font-inter">
-              "The insights provided have been remarkably accurate, and the positive changes in my life have been undeniable. This is the best numerology consultation I've ever received."
+              "I appreciated how the session slowed me down. Instead of big promises, I left with a clearer plan and a written summary I could revisit with my family."
             </blockquote>
-            <div className="flex items-center justify-center gap-1 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
-              ))}
-            </div>
             <cite className="text-xl text-burnt-orange-600 font-bold font-inter">
-              — A Satisfied Client from Toronto, Canada
+              — Client feedback shared after a virtual consultation
             </cite>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-burnt-orange-600 mb-2 font-jakarta">85%</div>
-              <div className="text-lg text-gray-600 font-inter">Business Growth Rate</div>
+          <div className="grid md:grid-cols-3 gap-8 mb-16 text-left text-gray-700 font-inter">
+            <div className="bg-white p-6 rounded-2xl shadow-md">
+              <p className="text-xl font-semibold text-burnt-orange-600 mb-2 font-jakarta">Clarity</p>
+              <p>Clients often say they leave understanding their options instead of feeling overwhelmed by choices.</p>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-burnt-orange-600 mb-2 font-jakarta">90%</div>
-              <div className="text-lg text-gray-600 font-inter">Client Satisfaction</div>
+            <div className="bg-white p-6 rounded-2xl shadow-md">
+              <p className="text-xl font-semibold text-burnt-orange-600 mb-2 font-jakarta">Written Notes</p>
+              <p>We share session highlights so you can revisit key numbers, spellings, and suggested timelines.</p>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-burnt-orange-600 mb-2 font-jakarta">95%</div>
-              <div className="text-lg text-gray-600 font-inter">Prediction Accuracy</div>
+            <div className="bg-white p-6 rounded-2xl shadow-md">
+              <p className="text-xl font-semibold text-burnt-orange-600 mb-2 font-jakarta">Next Steps</p>
+              <p>Expect simple suggestions—from paperwork reminders to colour cues—that help you ease into changes.</p>
             </div>
           </div>
         </div>
@@ -613,11 +591,11 @@ const MinimalPage = () => {
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-bold mb-8 font-jakarta">
-            Ready to Transform Your <span className="text-orange-200">Destiny in 2025?</span>
+            Ready to talk through your numerology questions?
           </h2>
           
           <p className="text-xl text-orange-100 mb-12 font-inter font-light max-w-3xl mx-auto">
-            Join thousands of successful individuals who have discovered the power of numerologically aligned names. Book your personalized consultation today and unlock your potential for prosperity, success, and happiness in 2025.
+            Book a conversation to review names, upcoming milestones, or personal-year themes. We’ll keep it practical, share notes, and leave space for you to decide the pace of any changes.
           </p>
 
           <button 
@@ -635,7 +613,7 @@ const MinimalPage = () => {
           >
             <span className="flex items-center gap-3">
               <Phone className="w-6 h-6" />
-              Book Free Consultation Now
+              Request a Session Time
             </span>
           </button>
 
@@ -649,7 +627,7 @@ const MinimalPage = () => {
               >
                 <MessageCircle className="w-8 h-8 text-orange-200" />
               </div>
-              <span className="text-lg text-orange-100 font-semibold font-inter">WhatsApp consultations</span>
+              <span className="text-lg text-orange-100 font-semibold font-inter">Phone or WhatsApp sessions</span>
             </div>
             <div className="flex flex-col items-center gap-4">
               <div 
@@ -660,7 +638,7 @@ const MinimalPage = () => {
               >
                 <Shield className="w-8 h-8 text-orange-200" />
               </div>
-              <span className="text-lg text-orange-100 font-semibold font-inter">Personal attention</span>
+              <span className="text-lg text-orange-100 font-semibold font-inter">Notes shared after sessions</span>
             </div>
             <div className="flex flex-col items-center gap-4">
               <div 
@@ -671,7 +649,7 @@ const MinimalPage = () => {
               >
                 <Globe className="w-8 h-8 text-orange-200" />
               </div>
-              <span className="text-lg text-orange-100 font-semibold font-inter">12+ countries served</span>
+              <span className="text-lg text-orange-100 font-semibold font-inter">Comfortable for different time zones</span>
             </div>
           </div>
 
@@ -685,7 +663,7 @@ const MinimalPage = () => {
               <CheckCircle className="w-8 h-8 text-orange-200" />
             </div>
             <p className="text-xl text-orange-100 font-semibold font-inter font-light">
-              <strong className="text-white text-2xl font-jakarta">IMPORTANT:</strong> Limited availability due to personal attention to each consultation. Book your slot today to secure your numerological transformation for 2025.
+              <strong className="text-white text-2xl font-jakarta">Scheduling note:</strong> We usually book 2-3 weeks in advance. Share a few preferred slots and we’ll confirm the earliest one that fits.
             </p>
           </div>
         </div>
