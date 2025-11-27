@@ -15,4 +15,6 @@ export interface ReviewRecord {
   mediaUrl?: string;
   mediaType: ReviewMediaType;
   createdAt: Date;
+  approved?: boolean;
+  hidden?: boolean;
 }

@@ -1,4 +1,4 @@
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebase';
 import { ReviewInput, ReviewMediaType, ReviewRecord } from '../types/review';
@@ -62,14 +62,27 @@ export async function submitReview(input: ReviewInput): Promise<void> {
     mediaUrl: mediaUrl ?? null,
     mediaType,
     createdAt: serverTimestamp(),
+    approved: false,
+    hidden: false,
   });
 }
 
 export function listenToReviews(
   onUpdate: (reviews: ReviewRecord[]) => void,
-  onError?: (error: Error) => void
+  onError?: (error: Error) => void,
+  adminMode = false
 ): () => void {
-  const reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'));
+  let reviewsQuery;
+  if (adminMode) {
+    reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'));
+  } else {
+    reviewsQuery = query(
+      reviewsCollection,
+      where('approved', '==', true),
+      where('hidden', '==', false),
+      orderBy('createdAt', 'desc')
+    );
+  }
 
   return onSnapshot(
     reviewsQuery,
@@ -85,6 +98,8 @@ export function listenToReviews(
           mediaUrl: data.mediaUrl ?? undefined,
           mediaType: (data.mediaType as ReviewMediaType) ?? null,
           createdAt: createdAtRaw?.toDate ? createdAtRaw.toDate() : new Date(),
+          approved: data.approved ?? false,
+          hidden: data.hidden ?? false,
         };
       });
 
@@ -99,4 +114,33 @@ export function listenToReviews(
       }
     }
   );
+}
+
+export async function approveReview(reviewId: string): Promise<void> {
+  const reviewRef = doc(reviewsCollection, reviewId);
+  await updateDoc(reviewRef, {
+    approved: true,
+  });
+}
+
+export async function hideReview(reviewId: string): Promise<void> {
+  const reviewRef = doc(reviewsCollection, reviewId);
+  await updateDoc(reviewRef, {
+    hidden: true,
+  });
+}
+
+export async function unhideReview(reviewId: string): Promise<void> {
+  const reviewRef = doc(reviewsCollection, reviewId);
+  await updateDoc(reviewRef, {
+    hidden: false,
+  });
+}
+
+export async function deleteReview(reviewId: string): Promise<void> {
+  const reviewRef = doc(reviewsCollection, reviewId);
+  await updateDoc(reviewRef, {
+    hidden: true,
+    approved: false,
+  });
 }
