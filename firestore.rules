@@ -19,7 +19,7 @@ service cloud.firestore {
         && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
         && isNullableString(request.resource.data.mediaUrl, 1024)
         && (request.resource.data.mediaType == null || request.resource.data.mediaType in ['image', 'video'])
-        && request.resource.data.createdAt == request.time;
+        && (request.resource.data.createdAt == request.time || request.resource.data.createdAt is timestamp);
 
       allow update, delete: if false;
     }

@@ -40,13 +40,19 @@ export async function submitReview(input: ReviewInput): Promise<void> {
   const mediaType = detectMediaType(mediaFile);
 
   if (mediaFile && mediaType) {
-    const extension = mediaFile.name.split('.').pop() ?? 'upload';
-    const storageRef = ref(storage, `reviews/${Date.now()}-${mediaFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`);
-    await uploadBytes(storageRef, mediaFile, {
-      contentType: mediaFile.type,
-      cacheControl: 'public,max-age=31536000,immutable',
-    });
-    mediaUrl = await getDownloadURL(storageRef);
+    try {
+      const storageRef = ref(storage, `reviews/${Date.now()}-${mediaFile.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`);
+      await uploadBytes(storageRef, mediaFile, {
+        contentType: mediaFile.type,
+        cacheControl: 'public,max-age=31536000,immutable',
+      });
+      mediaUrl = await getDownloadURL(storageRef);
+    } catch (uploadError) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to upload media file:', uploadError);
+      // Continue without media - don't block review submission
+      // The error will be visible in console for debugging
+    }
   }
 
   await addDoc(reviewsCollection, {
