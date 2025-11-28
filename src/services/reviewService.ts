@@ -76,32 +76,31 @@ export function listenToReviews(
   if (adminMode) {
     reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'));
   } else {
-    reviewsQuery = query(
-      reviewsCollection,
-      where('approved', '==', true),
-      where('hidden', '==', false),
-      orderBy('createdAt', 'desc')
-    );
+    // Use a simpler query that doesn't require composite index
+    // Filter approved and non-hidden reviews in memory after fetching
+    reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'));
   }
 
   return onSnapshot(
     reviewsQuery,
     (snapshot) => {
-      const records: ReviewRecord[] = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        const createdAtRaw = data.createdAt;
-        return {
-          id: doc.id,
-          name: data.name ?? 'Anonymous',
-          feedback: data.feedback ?? '',
-          rating: Number(data.rating) || 0,
-          mediaUrl: data.mediaUrl ?? undefined,
-          mediaType: (data.mediaType as ReviewMediaType) ?? null,
-          createdAt: createdAtRaw?.toDate ? createdAtRaw.toDate() : new Date(),
-          approved: data.approved ?? false,
-          hidden: data.hidden ?? false,
-        };
-      });
+      const records: ReviewRecord[] = snapshot.docs
+        .map((doc) => {
+          const data = doc.data();
+          const createdAtRaw = data.createdAt;
+          return {
+            id: doc.id,
+            name: data.name ?? 'Anonymous',
+            feedback: data.feedback ?? '',
+            rating: Number(data.rating) || 0,
+            mediaUrl: data.mediaUrl ?? undefined,
+            mediaType: (data.mediaType as ReviewMediaType) ?? null,
+            createdAt: createdAtRaw?.toDate ? createdAtRaw.toDate() : new Date(),
+            approved: data.approved ?? false,
+            hidden: data.hidden ?? false,
+          };
+        })
+        .filter((record) => adminMode || (record.approved && !record.hidden));
 
       onUpdate(records);
     },
