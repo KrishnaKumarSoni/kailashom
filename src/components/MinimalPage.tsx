@@ -416,7 +416,7 @@ const MinimalPage = () => {
             )}
 
             {!reviewsLoading && !reviewsError &&
-              reviews.slice(0, 6).map((review) => (
+              reviews.map((review) => (
                 <div key={review.id} className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-1">
