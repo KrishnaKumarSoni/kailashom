@@ -79,10 +79,13 @@
       "destination": "/sitemap.xml"
     },
     {
-      "source": "/robots.txt", 
+      "source": "/robots.txt",
       "destination": "/robots.txt"
-    }
-    ,
+    },
+    {
+      "source": "/sw.js",
+      "destination": "/sw.js"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
