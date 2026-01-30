@@ -447,7 +447,7 @@ const MinimalPage = () => {
                         <video
                           src={review.mediaUrl}
                           controls
-                          className="w-full h-40 object-cover rounded-xl"
+                          className="w-full rounded-xl"
                         />
                       )}
                     </div>
